@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Security rules for GitHub config -->
+    
+    <!-- GitHub token should only be visible to admins -->
+    <record id="github_config_token_rule" model="ir.rule">
+        <field name="name">GitHub Config: Token visible to admins only</field>
+        <field name="model_id" ref="model_simstech_github_config"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    
+</odoo>
+

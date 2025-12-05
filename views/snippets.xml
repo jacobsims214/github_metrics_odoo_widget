@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ================================================================== -->
+    <!-- GITHUB STATS SNIPPET - Draggable block for website editor          -->
+    <!-- ================================================================== -->
+    
+    <!-- The actual snippet template -->
+    <template id="s_github_stats" name="GitHub Stats">
+        <section class="s_github_stats pt48 pb48">
+            <div class="container">
+                <div class="github-stats-widget" 
+                     data-snippet="s_github_stats"
+                     data-config-id="1">
+                    <!-- Loading state shown before JS initializes -->
+                    <div class="github-loading text-center py-5">
+                        <i class="fa fa-github fa-3x mb-3 text-muted"></i>
+                        <p class="text-muted">Loading GitHub stats...</p>
+                        <p class="text-muted small">Configure in Settings → GitHub Widget</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    
+    <!-- Register snippet in the website editor sidebar (Odoo 19 format) -->
+    <template id="github_stats_snippet_assets" inherit_id="website.snippets">
+        <xpath expr="//t[@id='snippet_google_map_hook']" position="before">
+            <t t-snippet="widget_github_stats.s_github_stats" 
+               string="GitHub Stats" 
+               group="social"
+               t-thumbnail="/widget_github_stats/static/description/icon.svg">
+                <keywords>github, portfolio, stats, developer, profile, code, commits, repositories</keywords>
+            </t>
+        </xpath>
+    </template>
+    
+</odoo>

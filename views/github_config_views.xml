@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- GitHub Config Form View -->
+    <record id="view_github_config_form" model="ir.ui.view">
+        <field name="name">simstech.github.config.form</field>
+        <field name="model">simstech.github.config</field>
+        <field name="arch" type="xml">
+            <form string="GitHub Profile">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_sync_now" type="object" 
+                                class="oe_stat_button" icon="fa-refresh">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Sync Now</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Stale" bg_color="text-bg-warning" 
+                            invisible="not is_stale"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g., My Portfolio"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="GitHub Account">
+                            <field name="github_username" placeholder="octocat"/>
+                            <field name="github_token" password="True" 
+                                   placeholder="ghp_xxxxxxxxxxxx"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Sync Status">
+                            <field name="last_sync"/>
+                            <field name="cache_age_hours" widget="float" digits="[10,1]"/>
+                            <field name="is_stale" invisible="1"/>
+                            <field name="sync_error" invisible="not sync_error"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Display Options" name="display">
+                            <group>
+                                <group string="Profile Info">
+                                    <field name="display_name" placeholder="Leave empty to use GitHub name"/>
+                                    <field name="show_avatar"/>
+                                    <field name="show_bio"/>
+                                    <field name="show_location"/>
+                                </group>
+                                <group string="Stats to Show">
+                                    <field name="show_repos"/>
+                                    <field name="show_stars"/>
+                                    <field name="show_followers"/>
+                                    <field name="show_languages"/>
+                                    <field name="show_contributions"/>
+                                    <field name="max_repos_display"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Theme">
+                                    <field name="theme" widget="radio"/>
+                                </group>
+                                <group string="Hide Orgs from Display">
+                                    <field name="excluded_orgs" 
+                                           placeholder="org-name,another-org"
+                                           widget="char"/>
+                                    <div class="alert alert-info mt-2">
+                                        <strong>How it works:</strong><br/>
+                                        1. Sync first to pull all your data<br/>
+                                        2. Check "Repos by Org" below to see org names<br/>
+                                        3. Enter org names here (comma-separated) to hide them<br/>
+                                        <br/>
+                                        <strong>Example:</strong> <code>rvo-redplatform,secret-corp</code><br/>
+                                        <br/>
+                                        <em>Note: Total repo count stays the same. Only the org breakdown and top repos list are filtered.</em>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Cached Data" name="cached">
+                            <group>
+                                <group string="Profile">
+                                    <field name="avatar_url" widget="url"/>
+                                    <field name="bio"/>
+                                    <field name="location"/>
+                                    <field name="company"/>
+                                    <field name="blog_url" widget="url"/>
+                                </group>
+                                <group string="Stats">
+                                    <field name="public_repos_count"/>
+                                    <field name="public_gists_count"/>
+                                    <field name="followers_count"/>
+                                    <field name="following_count"/>
+                                    <field name="total_stars"/>
+                                </group>
+                            </group>
+                            <group string="JSON Data (Debug)">
+                                <field name="top_repos_json" widget="text"/>
+                                <field name="top_languages_json" widget="text"/>
+                                <field name="contribution_data_json" widget="text"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Help" name="help">
+                            <div class="alert alert-info">
+                                <h4><i class="fa fa-info-circle"/> Getting a GitHub Token</h4>
+                                <ol>
+                                    <li>Go to <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a></li>
+                                    <li>Click "Generate new token (classic)"</li>
+                                    <li>Give it a name like "Odoo Portfolio Widget"</li>
+                                    <li>Select scopes: <code>read:user</code> and optionally <code>repo</code> (for private repo stats)</li>
+                                    <li>Copy the token and paste it above</li>
+                                </ol>
+                                <p class="mb-0">
+                                    <strong>Note:</strong> Without a token, you're limited to 60 API requests/hour. 
+                                    With a token, you get 5,000/hour plus access to contribution graphs.
+                                </p>
+                            </div>
+                            
+                            <div class="alert alert-secondary">
+                                <h4><i class="fa fa-code"/> Using the Widget</h4>
+                                <ol>
+                                    <li>Save this configuration</li>
+                                    <li>Click "Sync Now" to fetch your GitHub data</li>
+                                    <li>Go to Website → Edit any page</li>
+                                    <li>Drag the "GitHub Stats" block onto your page</li>
+                                    <li>Select this profile in the snippet options</li>
+                                </ol>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- GitHub Config List View -->
+    <record id="view_github_config_list" model="ir.ui.view">
+        <field name="name">simstech.github.config.list</field>
+        <field name="model">simstech.github.config</field>
+        <field name="arch" type="xml">
+            <list string="GitHub Profiles">
+                <field name="name"/>
+                <field name="github_username"/>
+                <field name="display_name"/>
+                <field name="public_repos_count"/>
+                <field name="total_stars"/>
+                <field name="last_sync"/>
+                <field name="is_stale" column_invisible="1"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Action -->
+    <record id="action_github_config" model="ir.actions.act_window">
+        <field name="name">GitHub Profiles</field>
+        <field name="res_model">simstech.github.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first GitHub profile
+            </p>
+            <p>
+                Configure your GitHub account to display stats on your website.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Menu Items -->
+    <menuitem id="menu_github_root"
+              name="GitHub Widget"
+              web_icon="widget_github_stats,static/description/icon.png"
+              sequence="100"/>
+    
+    <menuitem id="menu_github_config"
+              name="Profiles"
+              parent="menu_github_root"
+              action="action_github_config"
+              sequence="10"/>
+
+</odoo>
+

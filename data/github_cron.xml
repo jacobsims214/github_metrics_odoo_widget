@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Cron job to refresh GitHub data hourly -->
+    <record id="ir_cron_github_sync" model="ir.cron">
+        <field name="name">GitHub Stats: Sync All Profiles</field>
+        <field name="model_id" ref="model_simstech_github_config"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_sync_all()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active">True</field>
+    </record>
+    
+</odoo>
