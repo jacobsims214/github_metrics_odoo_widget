@@ -14,8 +14,8 @@
         Configure your GitHub credentials securely in the backend,
         then drag the widget onto any website page.
     """,
-    'author': 'SimsTech',
-    'website': 'https://simstech.dev',
+    'author': 'Jacob Sims',
+    'website': 'https://simstech.cloud',
     'license': 'LGPL-3',
     'depends': ['website'],
     'data': [
