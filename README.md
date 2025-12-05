@@ -87,7 +87,3 @@ Override these CSS variables to match your site:
 
 LGPL-3
 
-## Author
-
-SimsTech - [simstech.dev](https://simstech.dev)
-
